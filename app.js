@@ -72,7 +72,7 @@ function getSubject() {
 }
 
 function getEffectiveLevel(subject) {
-  return state.subjectLevels[subject.id] || subject.level;
+  return state.subjectLevels[subject.id] || subject.level || 'gk';
 }
 
 function formatLevel(level) {
@@ -81,23 +81,32 @@ function formatLevel(level) {
   return level;
 }
 
-function countDone(section) {
-  return section.topics.filter((_, i) => state.checked[`${section.id}_${i}`]).length;
+function countDone(section, level) {
+  return section.topics.filter((topic, i) => {
+    if (topic.startsWith('[LK]') && level === 'gk') return false;
+    return !!state.checked[`${section.id}_${i}`];
+  }).length;
 }
 
 function calcSubjectProgress(subject) {
-  const total = subject.quarters.flatMap(q => q.sections.flatMap(s => s.topics)).length;
+  const level = getEffectiveLevel(subject);
+  const total = subject.quarters.flatMap(q =>
+    q.sections.flatMap(s => s.topics.filter(t => !(t.startsWith('[LK]') && level === 'gk')))
+  ).length;
   const done  = subject.quarters.flatMap(q =>
-    q.sections.flatMap(s => s.topics.filter((_, i) => state.checked[`${s.id}_${i}`]))
+    q.sections.flatMap(s => s.topics.filter((t, i) => {
+      if (t.startsWith('[LK]') && level === 'gk') return false;
+      return !!state.checked[`${s.id}_${i}`];
+    }))
   ).length;
   return { total, done, pct: total ? (done / total) * 100 : 0 };
 }
 
 function setTheme(subject) {
   const root = document.documentElement;
-  root.style.setProperty('--subject-color',  subject.color);
-  root.style.setProperty('--subject-accent', subject.accent);
-  root.style.setProperty('--subject-bg',     subject.bg);
+  root.style.setProperty('--subject-color',  subject.color  || '#1d3461');
+  root.style.setProperty('--subject-accent', subject.accent || subject.color || '#2563eb');
+  root.style.setProperty('--subject-bg',     subject.bg     || '#eef2fb');
 }
 
 function escapeHtml(str) {
@@ -201,9 +210,14 @@ function render() {
     </section>
 
     ${subject.quarters.map(quarter => {
-      const qTotal = quarter.sections.flatMap(s => s.topics).length;
+      const qTotal = quarter.sections.flatMap(s =>
+        s.topics.filter(t => !(t.startsWith('[LK]') && effectiveLevel === 'gk'))
+      ).length;
       const qDone  = quarter.sections.flatMap(s =>
-        s.topics.filter((_, i) => state.checked[`${s.id}_${i}`])
+        s.topics.filter((t, i) => {
+          if (t.startsWith('[LK]') && effectiveLevel === 'gk') return false;
+          return !!state.checked[`${s.id}_${i}`];
+        })
       ).length;
       const qPct = qTotal ? (qDone / qTotal) * 100 : 0;
 
@@ -218,8 +232,11 @@ function render() {
           </div>
 
           ${quarter.sections.map(section => {
-            const done   = countDone(section);
-            const allDone = done === section.topics.length;
+            const done          = countDone(section, effectiveLevel);
+            const visibleTopics = effectiveLevel === 'gk'
+              ? section.topics.filter(t => !t.startsWith('[LK]'))
+              : section.topics;
+            const allDone = done === visibleTopics.length;
             const isOpen  = state.openSections[section.id] !== false;
 
             return `
@@ -228,14 +245,15 @@ function render() {
                   data-toggle-section="${section.id}">
                   <span class="arrow">${isOpen ? '▾' : '▸'}</span>
                   <span class="sectionTitle">${escapeHtml(section.title)}</span>
-                  <span class="pill">${done}/${section.topics.length}</span>
+                  <span class="pill">${done}/${visibleTopics.length}</span>
                 </button>
                 ${isOpen ? `
                   <div class="topics">
                     ${section.topics.map((topic, i) => {
+                      const isLK = topic.startsWith('[LK]');
+                      if (isLK && effectiveLevel === 'gk') return '';
                       const key       = `${section.id}_${i}`;
                       const isChecked = !!state.checked[key];
-                      const isLK      = topic.startsWith('[LK]');
                       const text      = isLK ? topic.replace('[LK] ', '') : topic;
                       return `
                         <label class="topic ${isChecked ? 'checked' : ''}">
@@ -248,7 +266,7 @@ function render() {
                     }).join('')}
                     <div class="sectionTools">
                       <button class="miniBtn" data-mark-section="${section.id}">
-                        ${done === section.topics.length ? 'Alle abwählen' : 'Alle abhaken'}
+                        ${done === visibleTopics.length ? 'Alle abwählen' : 'Alle abhaken'}
                       </button>
                     </div>
                   </div>
@@ -290,11 +308,18 @@ function bindEvents() {
     btn.addEventListener('click', () => {
       const id = btn.dataset.markSection;
       const subject = getSubject();
+      const level   = getEffectiveLevel(subject);
       let target = null;
       subject.quarters.forEach(q => q.sections.forEach(s => { if (s.id === id) target = s; }));
       if (!target) return;
-      const allChecked = target.topics.every((_, i) => !!state.checked[`${id}_${i}`]);
-      target.topics.forEach((_, i) => { state.checked[`${id}_${i}`] = !allChecked; });
+      const allChecked = target.topics.every((t, i) => {
+        if (t.startsWith('[LK]') && level === 'gk') return true;
+        return !!state.checked[`${id}_${i}`];
+      });
+      target.topics.forEach((t, i) => {
+        if (t.startsWith('[LK]') && level === 'gk') return;
+        state.checked[`${id}_${i}`] = !allChecked;
+      });
       saveChecked();
       render();
     });

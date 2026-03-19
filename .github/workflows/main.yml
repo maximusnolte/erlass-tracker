@@ -42,26 +42,24 @@ jobs:
 
           const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 
-          async function getRows(sheetTab) {
+          async function getRows(sheetTab, range = 'A:E') {
             const res = await sheets.spreadsheets.values.get({
               spreadsheetId: SPREADSHEET_ID,
-              range: `${sheetTab}!A:E`,   // section_title | quarter | topic_text | is_lk | section_id
+              range: `${sheetTab}!${range}`,   // section_title | quarter | topic_text | is_lk | section_id
             });
             return res.data.values || [];
           }
 
           async function main() {
-            // 1. _config einlesen
-            const configRows = await getRows('_config');
-            const header = configRows[0]; // subject_id | subject_name | sheet_tab | subject_level | color | accent | bg
+            // 1. _config einlesen (columns: subject_id | subject_name | sheet_tab | color | accent | bg)
+            const configRows = await getRows('_config', 'A:F');
             const configs = configRows.slice(1).map(row => ({
-              id:       row[0],
-              name:     row[1],
-              tab:      row[2],
-              level:    row[3],
-              color:    row[4],
-              accent:   row[5],
-              bg:       row[6],
+              id:     row[0],
+              name:   row[1],
+              tab:    row[2],
+              color:  row[3],
+              accent: row[4],
+              bg:     row[5],
             }));
 
             const subjects = [];
@@ -112,7 +110,6 @@ jobs:
               subjects.push({
                 id:       config.id,
                 name:     config.name,
-                level:    config.level,
                 color:    config.color,
                 accent:   config.accent,
                 bg:       config.bg,
