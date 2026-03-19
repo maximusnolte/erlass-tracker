@@ -83,7 +83,8 @@ function formatLevel(level) {
 
 function countDone(section, level) {
   return section.topics.filter((topic, i) => {
-    if (topic.startsWith('[LK]') && level === 'gk') return false;
+    if (topic.level === 'lk' && level === 'gk') return false;
+    if (topic.level === 'gk' && level === 'lk') return false;
     return !!state.checked[`${section.id}_${i}`];
   }).length;
 }
@@ -91,11 +92,16 @@ function countDone(section, level) {
 function calcSubjectProgress(subject) {
   const level = getEffectiveLevel(subject);
   const total = subject.quarters.flatMap(q =>
-    q.sections.flatMap(s => s.topics.filter(t => !(t.startsWith('[LK]') && level === 'gk')))
+    q.sections.flatMap(s => s.topics.filter(t => {
+      if (t.level === 'lk' && level === 'gk') return false;
+      if (t.level === 'gk' && level === 'lk') return false;
+      return true;
+    }))
   ).length;
   const done  = subject.quarters.flatMap(q =>
     q.sections.flatMap(s => s.topics.filter((t, i) => {
-      if (t.startsWith('[LK]') && level === 'gk') return false;
+      if (t.level === 'lk' && level === 'gk') return false;
+      if (t.level === 'gk' && level === 'lk') return false;
       return !!state.checked[`${s.id}_${i}`];
     }))
   ).length;
