@@ -24,12 +24,9 @@ Aktuell sind folgende Fächer verfügbar:
 - Politik & Wirtschaft
 
 **Weitere Fächer folgen in Kürze!**
-Die App wird kontinuierlich erweitert. Schau regelmäßig vorbei oder beobachte das Repository, um über neue Fächer informiert zu werden.
 
 ## 🚀 Nutzung
-
-Öffne `index.html` in einem modernen Browser oder besuche die gehostete Version.
-
+Besuche die Offiziel Gehostete Seite
 Alle Checkboxen und Selektionen werden lokal im **LocalStorage** des Browsers gespeichert. Das Löschen des Browser-Caches entfernt alle gespeicherten Einstellungen.
 
 ## 🛠️ Technologie
