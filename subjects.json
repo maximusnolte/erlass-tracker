@@ -1,0 +1,52 @@
+[
+  {
+    "id": "deutsch",
+    "name": "Deutsch",
+    "level": "lk",
+    "color": "#C94A4A",
+    "quarters": [
+      {
+        "q": "Q1",
+        "sections": [
+          {
+            "id": "deutsch_1.1",
+            "title": "Q1.1 – Epochenumbruch 18./19. Jahrhundert",
+            "topics": [
+              "Literarische Texte: Dramatik (z. B. Schiller, Kleist)",
+              "Schlüsselthemen der Weimarer Klassik",
+              "Schlüsselthemen der Romantik",
+              "Romantik und Modernität"
+            ]
+          },
+          {
+            "id": "deutsch_1.2",
+            "title": "Q1.2 – Sprache, Medien, Wirklichkeit",
+            "topics": [
+              "Audiovisuelle Medien und ihre Spezifika",
+              "Sprache und ihre Wirkung in Medien"
+            ]
+          }
+        ]
+      },
+      {
+        "q": "Q2",
+        "sections": [
+          {
+            "id": "deutsch_2.1",
+            "title": "Q2.1 – Sprache und Öffentlichkeit",
+            "topics": [
+              "Reden, Flugschriften oder Essays"
+            ]
+          },
+          {
+            "id": "\ndeutsch_2.2",
+            "title": "Q2.2 – Soziales Drama und politisches Theater",
+            "topics": [
+              "Ein soziales oder politisches Drama"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
