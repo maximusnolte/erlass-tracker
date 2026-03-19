@@ -80,7 +80,11 @@ body {
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 3px solid var(--subject-color);
-  transition: border-color 0.3s ease;
+  transition: transform 0.35s cubic-bezier(.4, 0, .2, 1), border-color 0.3s ease;
+}
+
+.site-header.header-hidden {
+  transform: translateY(-100%);
 }
 
 .eyebrow {
@@ -156,7 +160,12 @@ body {
   align-items: center;
   border-top: 4px solid var(--subject-color);
   margin-bottom: 28px;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.25s ease, transform 0.22s ease;
+}
+
+.hero:hover {
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
 }
 
 .hero h2 {
@@ -192,12 +201,19 @@ body {
   font-family: inherit;
   font-size: 13px;
   font-weight: 500;
-  transition: all 0.18s ease;
+  transition: all 0.2s cubic-bezier(.4, 0, .2, 1);
 }
 
 .btn:hover {
   background: var(--subject-color);
   color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.btn:active {
+  transform: scale(0.96);
+  box-shadow: none;
 }
 
 /* ── Progress-Ring ──────────────────────────────────────────────── */
