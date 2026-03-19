@@ -23,8 +23,8 @@ const subjects = [
     id: 'deutsch',
     name: 'Deutsch',
     level: 'Leistungskurs',
-    color:  '#c0392b',   /* Weinrot  */
-    accent: '#e74c3c',
+    color:  '#C94A4A',   /* Weinrot  */
+    accent: '#E57373',
     bg:     '#fff5f5',
     quarters: [
       {
@@ -151,8 +151,8 @@ const subjects = [
     id: 'englisch',
     name: 'Englisch',
     level: 'Leistungskurs',
-    color:  '#1a5276',   /* Navy Blue */
-    accent: '#2980b9',
+    color:  '#D4A017',   /* Navy Blue */
+    accent: '#FFD54F',
     bg:     '#f0f8ff',
     quarters: [
       {
@@ -275,8 +275,8 @@ const subjects = [
     id: 'biologie',
     name: 'Biologie',
     level: 'Leistungskurs',
-    color:  '#0f766e',   /* Teal */
-    accent: '#14b8a6',
+    color:  '#4CAF7D',   /* Teal */
+    accent: '#81C995',
     bg:     '#effcf8',
     quarters: [
       {
@@ -366,8 +366,8 @@ const subjects = [
     id: 'mathematik',
     name: 'Mathematik',
     level: 'Leistungskurs',
-    color:  '#6d28d9',   /* Violett */
-    accent: '#8b5cf6',
+    color:  '#3A7BD5',   /* Violett */
+    accent: '#6FA8FF',
     bg:     '#f6f0ff',
     quarters: [
       {
@@ -426,8 +426,8 @@ const subjects = [
     id: 'powi',
     name: 'Politik & Wirtschaft',
     level: 'Leistungskurs',
-    color:  '#166534',   /* Grün */
-    accent: '#22c55e',
+    color:  '#9B59B6',   /* Grün */
+    accent: '#D291FF',
     bg:     '#f0fff4',
     quarters: [
       {
