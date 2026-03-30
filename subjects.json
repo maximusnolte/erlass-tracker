@@ -76,7 +76,16 @@
             ]
           }
         ],
-        "books": []
+        "books": [
+          {
+            "name": "Lyrik der Romantik",
+            "pages": null
+          },
+          {
+            "name": "Zerbrochene Krug",
+            "pages": null
+          }
+        ]
       },
       {
         "q": "Q2",
@@ -148,7 +157,16 @@
             ]
           }
         ],
-        "books": []
+        "books": [
+          {
+            "name": "Woyzeck",
+            "pages": null
+          },
+          {
+            "name": "Heimsuchung",
+            "pages": null
+          }
+        ]
       },
       {
         "q": "Q3",
@@ -216,7 +234,16 @@
             ]
           }
         ],
-        "books": []
+        "books": [
+          {
+            "name": "Der Prozess",
+            "pages": null
+          },
+          {
+            "name": "Texte des Epochenumbruchs",
+            "pages": null
+          }
+        ]
       }
     ]
   },
@@ -277,12 +304,7 @@
             ]
           }
         ],
-        "books": [
-          {
-            "name": "Faust 1",
-            "pages": 100
-          }
-        ]
+        "books": []
       },
       {
         "q": "Q2",
